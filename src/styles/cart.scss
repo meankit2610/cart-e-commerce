@@ -1,0 +1,24 @@
+@import "colors";
+
+.cart {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+
+    >main {
+        padding: 2rem;
+        overflow-y: auto;
+        &::-webkit-scrollbar{
+            display: none;
+        }
+        >h1 {
+            color: $tertiary;
+            font: 100 2rem "Roboto";
+
+        }
+    }
+
+    >aside {
+        border-radius: 100px;
+    }
+}
