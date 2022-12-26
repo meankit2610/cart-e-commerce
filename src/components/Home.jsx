@@ -1,6 +1,6 @@
 import React from 'react'
-import { toast } from 'react-hot-toast'
-
+import toast  from 'react-hot-toast'
+import { useDispatch } from 'react-redux';
 const img1 =
   "https://www.reliancedigital.in/medias/Apple-MGN63HNA-Laptops-491946461-i-1-1200Wx1200H?context=bWFzdGVyfGltYWdlc3wxNzczNDJ8aW1hZ2UvanBlZ3xpbWFnZXMvaDVhL2gyZC85NDQzMDgzNTgzNTE4LmpwZ3xhYzRiNWIxZGQ2NjNiNWIyYjI0Y2ZkYTZlZWQ3MTFjZTMxYzVmNDBiNmM5Mzk5OTM2OGVkZmExMjMyYjIxNDQ4";
 const img2 =
@@ -22,7 +22,16 @@ const Home = () => {
         imgSrc: img2,
         id: "sdjfdlaajsdbhjabhsjdfdfv",
       },
-    ];
+  ];
+  
+  const dispatch = useDispatch()
+
+  const addToCartHandler = (options) => {
+    dispatch({ type: "addToCart", payload: options });
+    dispatch({type:"calculatePrice"})
+    console.log("in the cart");
+    toast.success("Added To Cart")
+  }
 
   return (
       <div className='home'>
@@ -33,6 +42,7 @@ const Home = () => {
               name={i.name}
               price={i.price}
               id={i.id}
+              handler={addToCartHandler}
               />
           ))}
           
@@ -40,12 +50,12 @@ const Home = () => {
   )
 }
 
-const ProductCard = ({name,imgSrc,id,price }) => (
+const ProductCard = ({name,imgSrc,id,price, handler }) => (
     <div className='productCard'>
         <img src={imgSrc} alt={name} />
         <p>{name}</p>
         <h4> ${price} </h4>
-        <button>Add to Cart</button>
+        <button onClick={()=> handler({name,price,id,quantity:1, imgSrc})}>Add to Cart</button>
     </div>
 )
 
