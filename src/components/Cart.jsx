@@ -1,10 +1,6 @@
 import React from 'react'
 import {AiFillDelete} from "react-icons/ai"
 import {useDispatch, useSelector} from "react-redux"
-const img1 =
-  "https://www.reliancedigital.in/medias/Apple-MGN63HNA-Laptops-491946461-i-1-1200Wx1200H?context=bWFzdGVyfGltYWdlc3wxNzczNDJ8aW1hZ2UvanBlZ3xpbWFnZXMvaDVhL2gyZC85NDQzMDgzNTgzNTE4LmpwZ3xhYzRiNWIxZGQ2NjNiNWIyYjI0Y2ZkYTZlZWQ3MTFjZTMxYzVmNDBiNmM5Mzk5OTM2OGVkZmExMjMyYjIxNDQ4";
-const img2 =
-  "https://cdn.shopify.com/s/files/1/2428/5565/products/Neemans-HaleBlack-ReLive-Knits-Jogger-FrontRightLogo-Comfortable-Shoes_1024x.jpg?v=1662876260";
 
 const Cart = () => {
   const { cartItems, subTotal, tax, shipping, total} = useSelector(
@@ -13,23 +9,27 @@ const Cart = () => {
 
   const dispatch = useDispatch();
   
-  const increment = (id) => {
+  const increment = (options) => {
+    console.log(options.id, "hii");
     dispatch({
-      type: "increment",
-      payload: id,
+      type: "addToCart",
+      payload: options,
     });
-
-  const decrement = (id) => {
-      dispatch({
-        type: "decrement",
-        payload: id,
-      });
-
-      const deleteHandler = () => {
-      
-    }   
-  }  
+  };
+  const decrement = (options) => {
+    dispatch({
+      type: "decrement",
+      payload: options,
+    });
   }
+      const deleteHandler = (id) => {
+        dispatch({
+          type: "deleteFromCart",
+          payload: id,
+        });
+    }   
+  
+  
   return (
     <div className="cart">
       <main>
@@ -39,7 +39,7 @@ const Cart = () => {
               imgSrc={i.imgSrc}
               name={i.name}
               price={i.price}
-              qty={1}
+              qty={i.quantity}
               key={i.id}
               decrement={decrement}
               increment={increment}
@@ -78,12 +78,16 @@ const CartItem = ({
       <p>${price}</p>
     </article>
     <div>
-      <button onClick={() => decrement(id)}>+</button>
+      <button
+        onClick={() => increment({ name, price, id, quantity: 1, imgSrc })}
+      >
+        +
+      </button>
       <p>{qty}</p>
-      <button onClick={() => increment(id)}>-</button>
+      <button onClick={() => decrement({ id })}>-</button>
     </div>
 
-    <AiFillDelete onClick={() => deleteHandler(id)} />
+    <AiFillDelete onClick={() => deleteHandler({ id })} />
   </div>
 );
 

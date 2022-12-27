@@ -12,37 +12,34 @@ export const cartReducer = createReducer(
         addToCart: (state, action) => {
             const item = action.payload;
             const isItemExist = state.cartItems.find((i) => i.id === item.id);
-
+console.log(isItemExist)
             if (isItemExist) {
                 state.cartItems.forEach((i) => {
-                    if (i.id == item.id) i.quantity += 1;
+                    if (i.id === item.id) i.quantity += 1;
                 });
 
             }
 
             else {
                 state.cartItems.push(item)
-                console.log("else in cart")
+                
             }
         },
 
         decrement: (state, action) => {
-            const item = state.cartItems.find((i) => i.id === action.payload);
+            const item = state.cartItems.find((i) => i.id === action.payload.id);
             if (item.quantity > 1) {
                 state.cartItems.forEach((i) => {
                     if (i.id === item.id) i.quantity -= 1;
-                })
-            }
-        },
-        increment: (state, action) => {
-            const item = state.cartItems.find((i) => i.id === action.payload);
-            if (item.quantity > 1) {
-                state.cartItems.forEach((i) => {
-                    if (i.id === item.id) i.quantity += 1;
-                })
-            }
-        },
 
+                    console.log("dec")
+                })
+            }
+        },
+       
+        deleteFromCart: (state, action) => {
+      state.cartItems = state.cartItems.filter((i) => i.id !== action.payload);
+    },
 
         calculatePrice: (state) => {
             let sum = 0;

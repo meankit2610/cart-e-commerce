@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Cart from "./components/Cart";
 import Header from "./components/Header";
+import { Toaster } from "react-hot-toast";
 import Home from "./components/Home";
 
 import "./styles/app.scss"
@@ -12,7 +13,7 @@ function App() {
       <Route path="/" element={<Home/>} />
       <Route path="/cart" element={<Cart/>} />
       </Routes>
-        
+        <Toaster/>
     </BrowserRouter>
   );
 }
